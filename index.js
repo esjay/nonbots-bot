@@ -8,9 +8,9 @@ var controller = Botkit.slackbot({
   debug: true
 })
 
-console.log('BEEPBOOP_RESOURCER', BEEPBOOP_RESOURCER,
-'BEEPBOOP_TOKEN', BEEPBOOP_TOKEN,
-'BEEPBOOP_ID', BEEPBOOP_ID)
+console.log('BEEPBOOP_RESOURCER', process.env.BEEPBOOP_RESOURCER,
+'BEEPBOOP_TOKEN', process.env.BEEPBOOP_TOKEN,
+'BEEPBOOP_ID', process.env.BEEPBOOP_ID)
 
 controller.setupWebserver(3000, function(err, webserver) {
     controller.createWebhookEndpoints(webserver);
