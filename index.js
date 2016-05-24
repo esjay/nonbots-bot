@@ -5,7 +5,7 @@ var token = process.env.SLACK_TOKEN
 var controller = Botkit.slackbot({
   // reconnect to Slack RTM when connection goes bad
   retry: Infinity,
-  debug: false
+  debug: true
 })
 
 // Assume single team mode if we have a SLACK_TOKEN
@@ -75,24 +75,15 @@ controller.hears('.*', ['direct_message', 'direct_mention'], function (bot, mess
   bot.reply(message, 'Sorry <@' + message.user + '>, I don\'t understand. \n')
 })
 
-Botkit.webserver.app.route('/whisper')
-  .get(function (req, res) {
-    res.sendStatus(200)
-  })
-  .post(bodyParser.urlencoded({ extended: true }), function (req, res) {
-    if (req.body.token !== VERIFY_TOKEN) {
-      return res.sendStatus(401)
-    }
+controller.on('slash_command', function(bot, message) {
+    // check message.command
+    // and maybe message.text...
+    // use EITHER replyPrivate or replyPublic...
+    bot.replyPrivate(message, 'This is a private reply to the ' + message.command + ' slash command!');
 
-    var message = 'boopbeep'
+    // and then continue to use replyPublicDelayed or replyPrivateDelayed
+    bot.replyPublicDelayed(message, 'This is a public reply to the ' + message.command + ' slash command!');
 
-    // Handle any help requests
-    if (req.body.text === 'help') {
-      message = "Sorry, I can't offer much help, just here to beep and boop"
-    }
+    bot.replyPrivateDelayed(message, ':dash:');
 
-    res.json({
-      response_type: 'ephemeral',
-      text: message
-    })
-  })
+});
