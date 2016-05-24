@@ -12,8 +12,11 @@ Visit [Beep Boop](https://beepboophq.com/docs/article/overview) to get the scoop
 ## Usage
 
 ### Run locally
-	npm install
-	SLACK_TOKEN=<YOUR_SLACK_TOKEN> npm start
+```
+npm install
+SLACK_TOKEN=<YOUR_SLACK_TOKEN>
+npm start
+```
 
 Things are looking good if the console prints something like:
 
