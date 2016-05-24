@@ -12,6 +12,10 @@ console.log('BEEPBOOP_RESOURCER', BEEPBOOP_RESOURCER,
 'BEEPBOOP_TOKEN', BEEPBOOP_TOKEN,
 'BEEPBOOP_ID', BEEPBOOP_ID)
 
+controller.setupWebserver(3000, function(err, webserver) {
+    controller.createWebhookEndpoints(webserver);
+});
+
 // Assume single team mode if we have a SLACK_TOKEN
 if (token) {
   console.log('Starting in single-team mode')
