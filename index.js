@@ -74,3 +74,25 @@ controller.hears(['attachment'], ['direct_message', 'direct_mention'], function 
 controller.hears('.*', ['direct_message', 'direct_mention'], function (bot, message) {
   bot.reply(message, 'Sorry <@' + message.user + '>, I don\'t understand. \n')
 })
+
+Botkit.webserver.app.route('/whisper')
+  .get(function (req, res) {
+    res.sendStatus(200)
+  })
+  .post(bodyParser.urlencoded({ extended: true }), function (req, res) {
+    if (req.body.token !== VERIFY_TOKEN) {
+      return res.sendStatus(401)
+    }
+
+    var message = 'boopbeep'
+
+    // Handle any help requests
+    if (req.body.text === 'help') {
+      message = "Sorry, I can't offer much help, just here to beep and boop"
+    }
+
+    res.json({
+      response_type: 'ephemeral',
+      text: message
+    })
+  })
