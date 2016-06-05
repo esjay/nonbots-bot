@@ -2,9 +2,13 @@
   "name": "nonbots-bot",
   "version": "0.0.0",
   "description": "A bot for nonbots",
-  "main": "index.js",
+  "main": "src/index.js",
+  "watch": {
+    "start": "src/*.js"
+  },
   "scripts": {
-    "start": "node index.js"
+    "start": "node src/index.js",
+    "watch": "npm-watch"
   },
   "repository": {
     "type": "git",
@@ -24,5 +28,8 @@
   "dependencies": {
     "beepboop-botkit": "^1.4.0",
     "botkit": "~0.1.1"
+  },
+  "devDependencies": {
+    "npm-watch": "^0.1.4"
   }
 }

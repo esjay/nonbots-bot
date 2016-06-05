@@ -38,10 +38,15 @@ controller.on('bot_channel_join', function (bot, message) {
 controller.hears(['hello', 'hi'], ['direct_mention'], function (bot, message) {
   bot.reply(message, 'Hello.')
 })
+console.log('registered hearing listener')
 
-controller.hears(['hello', 'hi'], ['direct_message'], function (bot, message) {
+controller.hears(['hello', 'hi', 'sup'], ['direct_message'], function (bot, message) {
   bot.reply(message, 'Hello.')
   bot.reply(message, 'It\'s nice to talk to you directly.')
+})
+
+controller.hears(['nm'], ['direct_message'], function (bot, message) {
+  bot.reply(message, 'Oh ok, I won\'t mind it, then.')
 })
 
 controller.hears('.*', ['mention'], function (bot, message) {
@@ -49,11 +54,16 @@ controller.hears('.*', ['mention'], function (bot, message) {
 })
 
 controller.hears('help', ['direct_message', 'direct_mention'], function (bot, message) {
+  console.log(bot.identity.name);
   var help = 'I will respond to the following messages: \n' +
-      '`bot hi` for a simple message.\n' +
-      '`bot attachment` to see a Slack attachment message.\n' +
-      '`@<your bot\'s name>` to demonstrate detecting a mention.\n' +
-      '`bot help` to see this again.'
+      `\`/dm @${bot.identity.name} @{user-name} delivers great presentations for clients :thumbsup:\`\n` +
+      `or...\n` +
+      `\`/dm @${bot.identity.name} @{user-name} should be more confident when presenting to clients :confused:\`\n` +
+      `both of the above messages will default to anonymous feedback at a random date and time in the future.\n` +
+      `\`@${bot.identity.name} hi\` for a simple message.\n` +
+      `\`@${bot.identity.name} attachment\` to see a Slack attachment message.\n` +
+      `\`@${bot.identity.name}\` to demonstrate detecting a mention.\n` +
+      `\`@${bot.identity.name} help\` to see this again.`
   bot.reply(message, help)
 })
 
