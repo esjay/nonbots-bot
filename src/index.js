@@ -1,17 +1,34 @@
 var Botkit = require('botkit')
+var firebase = require('firebase')
+
+console.log(process.env)
+var firebaseConfig = {
+    serviceAccount: process.env.SERVICE_ACCOUNT,
+    apiKey: process.env.API_KEY,
+    authDomain: process.env.AUTH_DOMAIN,
+    databaseURL: process.env.DATABASE_URL,
+    storageBucket: process.env.STORAGE_BUCKET
+  };
+var firebaseStorage = require('./lib/botkitFirebaseStorage')(firebaseConfig)
+// var firebaseStorage = require('botkit-storage-firebase')(firebaseConfig);
 
 var token = process.env.SLACK_TOKEN
 
 var controller = Botkit.slackbot({
   // reconnect to Slack RTM when connection goes bad
   retry: Infinity,
-  debug: true
+  debug: true,
+  storage: firebaseStorage
 })
 
-console.log('BEEPBOOP_RESOURCER', process.env.BEEPBOOP_RESOURCER,
-'BEEPBOOP_TOKEN', process.env.BEEPBOOP_TOKEN,
-'BEEPBOOP_ID', process.env.BEEPBOOP_ID)
+var beans = {id: 'cool', beans: ['pinto', 'garbanzo']};
+controller.storage.teams.save(beans);
+beans = controller.storage.teams.get('cool');
+console.log('beans', beans)
 
+// console.log('BEEPBOOP_RESOURCER', process.env.BEEPBOOP_RESOURCER,
+// 'BEEPBOOP_TOKEN', process.env.BEEPBOOP_TOKEN,
+// 'BEEPBOOP_ID', process.env.BEEPBOOP_ID)
 
 // Assume single team mode if we have a SLACK_TOKEN
 if (token) {
@@ -29,6 +46,7 @@ if (token) {
 } else {
   console.log('Starting in Beep Boop multi-team mode')
   require('beepboop-botkit').start(controller, { debug: true })
+  // console.log('controller', controller)
 }
 
 controller.on('bot_channel_join', function (bot, message) {
@@ -38,12 +56,8 @@ controller.on('bot_channel_join', function (bot, message) {
 controller.hears(['hello', 'hi'], ['direct_mention'], function (bot, message) {
   bot.reply(message, 'Hello.')
 })
-console.log('registered hearing listener')
 
-controller.hears(['hello', 'hi', 'sup'], ['direct_message'], function (bot, message) {
-  bot.reply(message, 'Hello.')
-  bot.reply(message, 'It\'s nice to talk to you directly.')
-})
+require('./modules/onboard')(controller)
 
 controller.hears(['nm'], ['direct_message'], function (bot, message) {
   bot.reply(message, 'Oh ok, I won\'t mind it, then.')
@@ -88,4 +102,42 @@ controller.hears(['attachment'], ['direct_message', 'direct_mention'], function 
 
 controller.hears('.*', ['direct_message', 'direct_mention'], function (bot, message) {
   bot.reply(message, 'Sorry <@' + message.user + '>, I don\'t understand. \n')
+})
+
+controller.on('reaction_added', function(bot, event) {
+  // { type: 'reaction_added',
+  // user: 'U0AB141EJ',
+  // item:
+  //  { type: 'message',
+  //    channel: 'C1B73CTQE',
+  //    ts: '1465177458.000005' },
+  // reaction: '100',
+  // item_user: 'U1E7SH0VB',
+  // event_ts: '1465178320.282076' }
+  console.log('hey, reaction added', event)
+  if(event.item_user === bot.identity.id) {
+    bot.reply(event.item, `oh wow! :${event.reaction}: right back atcha, <@${event.user}>!`)
+  } else {
+    console.log('event.item_user', event.item_user, 'vs bot.identity', bot.identity)
+  }
+})
+
+controller.on('emoji_changed', function(bot, emoji) {
+  // {
+  //     "type": "emoji_changed",
+  //     "subtype": "remove",
+  //     "names": ["picard_facepalm"],
+  //     "event_ts" : "1361482916.000004"
+  // }
+
+  // { type: 'emoji_changed',
+  // subtype: 'add',
+  // name: 'kappa',
+  // value: 'https://emoji.slack-edge.com/T0AB17SUB/kappa/90def4d5cf60e567.png',
+  // event_ts: '1465178389.282357' }
+  console.log('emoji changed', emoji)
+})
+
+controller.on('team_join', function(bot, event) {
+
 })

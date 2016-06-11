@@ -4,7 +4,7 @@
   "description": "A bot for nonbots",
   "main": "src/index.js",
   "watch": {
-    "start": "src/*.js"
+    "start": "src/**/*.js"
   },
   "scripts": {
     "start": "node src/index.js",
@@ -27,7 +27,11 @@
   "homepage": "https://github.com/esjay/nonbots-bot#readme",
   "dependencies": {
     "beepboop-botkit": "^1.4.0",
-    "botkit": "~0.1.1"
+    "botkit": "~0.1.1",
+    "botkit-storage-firebase": "^1.0.0",
+    "firebase": "^3.0.4",
+    "gcloud": "^0.35.0",
+    "sentiment": "^1.0.6"
   },
   "devDependencies": {
     "npm-watch": "^0.1.4"
