@@ -1,7 +1,9 @@
 var Botkit = require('botkit')
 var firebase = require('firebase')
+var path = require('path')
+require('dotenv').config({path: path.join(__dirname, '../.env')})
 
-console.log(process.env)
+console.log(process.env.SERVICE_ACCOUNT)
 var firebaseConfig = {
     serviceAccount: process.env.SERVICE_ACCOUNT,
     apiKey: process.env.API_KEY,

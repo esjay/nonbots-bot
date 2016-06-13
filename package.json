@@ -29,6 +29,7 @@
     "beepboop-botkit": "^1.4.0",
     "botkit": "~0.1.1",
     "botkit-storage-firebase": "^1.0.0",
+    "dotenv": "^2.0.0",
     "firebase": "^3.0.4",
     "gcloud": "^0.35.0",
     "sentiment": "^1.0.6"
