@@ -3,9 +3,12 @@ var firebase = require('firebase')
 var path = require('path')
 require('dotenv').config({path: path.join(__dirname, '../.env')})
 
-console.log(process.env.SERVICE_ACCOUNT)
 var firebaseConfig = {
-    serviceAccount: process.env.SERVICE_ACCOUNT,
+    serviceAccount: process.env.SERVICE_ACCOUNT ? process.env.serviceAccount : {
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      privateKey: process.env.FIREBASE_PRIVATE_KEY,
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL
+    },
     apiKey: process.env.API_KEY,
     authDomain: process.env.AUTH_DOMAIN,
     databaseURL: process.env.DATABASE_URL,

@@ -2,16 +2,22 @@ name: hrbot
 description: Here to listen...
 avatar: resources/avatar.png
 #background: resources/background.png
-#config:
-#  - name: OPTION
-#    friendly_name: Some Unnecessary Option
-#    info: This is an unnecessary option
-#    default: the default value
-#  - name: SECRET
-#    friendly_name: Shhhh
-#    info: This is an secret option
-#    type: secret
-#    default: not secret though
+config:
+ - name: API_KEY
+   friendly_name: Firebase API Key
+ - name: AUTH_DOMAIN
+   friendly_name: Firebase Auth Domain
+ - name: DATABASE_URL
+   friendly_name: Firebase Database URL
+ - name: STORAGE_BUCKET
+   friendly_name: Firebase Storage Bucket
+ - name: FIREBASE_PROJECT_ID
+   friendly_name: Firebase Project ID
+ - name: FIREBASE_PRIVATE_KEY
+   friendly_name: Firebase Private Key
+ - name: FIREBASE_CLIENT_EMAIL
+   friendly_name: Firebase Client Email
+
 #screenshots:
 #  - screenshot: resources/screenshot1.png
 #  - screenshot: resources/screenshot2.jpg
