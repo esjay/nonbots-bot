@@ -3,10 +3,16 @@
   "version": "0.0.0",
   "description": "A bot for nonbots",
   "main": "src/index.js",
+  "engines": {
+    "node": ">=6.0.0"
+  },
   "watch": {
     "start": "src/**/*.js"
   },
   "scripts": {
+    "prebuild": "npm install",
+    "build": "NODE_ENV=production node node_modules/.bin/webpack && cp site/index.html dist/index.html",
+    "serve": "npm run build && webpack-dev-server --content-base dist/",
     "start": "node src/index.js",
     "watch": "npm-watch"
   },
@@ -35,6 +41,8 @@
     "sentiment": "^1.0.6"
   },
   "devDependencies": {
-    "npm-watch": "^0.1.4"
+    "npm-watch": "^0.1.4",
+    "webpack": "^2.1.0-beta.20",
+    "webpack-dev-server": "^2.1.0-beta.0"
   }
 }

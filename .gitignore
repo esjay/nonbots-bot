@@ -3,3 +3,4 @@ node_modules
 npm-debug.log
 .env
 src/hrbot-4aa32b227f33.json
+dist/
