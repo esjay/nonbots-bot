@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "hrbot"
+    "default": "hrbot",
+    "prod": "project-2636208679670656940"
   }
 }
